@@ -1,0 +1,136 @@
+<%- include('../partials/header') %>
+
+<h1>Blood Sugar Readings</h1>
+
+    <table class = 'index-table'>
+        
+        <thead>
+            <tr>
+                <th class = 'date-heading'>Date</th>
+                <th>Pre-prandial reading</th>
+                <th>Post-prandial reading</th>
+                <th>Details</th>
+                
+            </tr>
+            
+       </thead>
+       <tbody>
+
+
+
+
+           <!-- sorted blood sugar array by date -->
+
+        <%const sortedBloodSugar = bloodsugar.sort (function(a,b){%>
+            <%return new Date (a.date) - new Date (b.date)%>
+        <%})%>
+
+
+
+        
+        <%sortedBloodSugar.forEach(function (s){ %>
+    
+            <%const simpleDate = [(s.date.getMonth() +1), (s.date.getDate())]%>
+
+            <tr> 
+                <td class = 'date-heading'> <%= simpleDate.join('/')%></td>
+
+                <td>
+                <%s.reading.map(function(p){%>
+                    <%if (p.mealTiming === 'Preprandial'){%>
+                    <%=p.sugarReading%>&nbsp;-
+                    <%}%>
+                <%})%>
+                &nbsp; </td>
+                
+                <td>
+                    <%s.reading.map(function(p){%>
+                        <%if (p.mealTiming === 'Postprandial'){%>
+                        <%=p.sugarReading%>&nbsp;
+                        <%}%>
+                    <%})%>&nbsp;  </td>
+                
+                <td><a href = '/bloodsugar/<%=s._id%>' class = "btn btn-outline-secondary btn-sm">More</a></td>
+                <td>
+                    <form action = '/bloodsugar/<%=s.id%>?_method=DELETE' method = 'POST'>
+                        <button class="btn btn-outline-danger btn-sm " data-toggle="tooltip" title="Hooray!"type="submit"><i class="fa fa-trash"style = "font-size:18px"></i></button>
+                    </form>
+                </td>
+
+            </tr>
+
+    </tbody>
+    <%})%>
+
+ 
+    <td id = "add-new">  <a href = '/bloodsugar/new' class = "btn btn-secondary">Add New Reading</a> </td>
+
+</table>
+<!-- finding dates for graph -->
+<%const chartDate = bloodsugar.map(function (d){%>
+    <%return d.date.toLocaleDateString()%>
+<%})%>
+
+<!-- finding all sugar readings -->
+<%const sugar = bloodsugar.map(function (b){%>
+    <% return b.reading.map(function (r){%>        
+        <% return r.sugarReading %>
+    <%})%>
+<%})%>
+
+<!-- finding average sugar readings for graph-->
+<%var sugarAverage = sugar.map(function(a){%>
+    <%  var total = 0;%>
+    <%for(var i = 0; i < a.length; i++) {%>
+        <%  total += a[i];%>
+        <%}%>
+        <% var avg = total / a.length;%>
+        <% return avg%>
+        
+<%})%>
+
+<div class="chart-container" style="position: relative; height:40vh; width:60vw">
+    <canvas id="myChart"></canvas>
+</div>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+
+<script>
+
+
+const chart = document.getElementById('myChart')
+
+const labels = <%- JSON.stringify(chartDate)%>;
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'My First dataset',
+      fill:false,
+      borderColor: 'rgb(255, 99, 132)',
+      color: 'black',
+
+      showLine: false, 
+      data: [<%- [sugarAverage] %>],
+    }]
+  };
+
+
+
+let lineChart = new Chart(chart, {
+    type:'line', 
+    data, 
+    options:{
+        
+      showLine:false
+    }
+})
+
+console.log(chart)
+  </script>
+
+
+
+<%- include('../partials/footer') %>

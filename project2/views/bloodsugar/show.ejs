@@ -1,0 +1,87 @@
+<%- include('../partials/header') %>
+<h1><%=bloodsugar.date.toDateString()  %></h1>
+
+<h2>Add sugar readings:</h2>
+<table class = 'show-table'>
+    
+    <caption>Add bloodsugar readings </caption>
+
+    <tr>
+       <th>Time</th> 
+       <th>Meal Timing</th>
+       <th>Sugar reading</th>
+       <th> </th>
+
+
+
+       <%bloodsugar.reading.forEach(function (r){%>
+
+        <tr>
+            <td><%=r.time%></td>
+            <td><%=r.mealTiming %></td>
+            <td><%=r.sugarReading%></td>
+            <th> </th>
+       
+        </tr>
+    <%})%>
+
+        <tr>
+            <form action= "/bloodsugar/<%= bloodsugar._id%>/reading" method = 'POST'>
+
+            <th><input type = 'Time' name = 'time'> </th>
+            <th><select name="mealTiming">
+                <option value="Preprandial">Preprandial</option>
+                <option value="Postprandial">Postprandial</option>
+            </select></th>    
+            <th><input type = 'Number' name= 'sugarReading'></th>    
+            <th><input type = 'submit'> </th>
+
+        </tr>
+        </form>
+</table>
+
+<h2>Add insulin usage:</h2>
+
+    <!-- form to add insulin levels -->
+    <table class= 'show-table'>
+        <caption>Add insulin dose (if applicable):</caption>
+
+        <tr>
+            <th>Insulin name</th>
+            <th>Units</th>
+            <th>Time</th>
+            <th>Add comments</th>
+            <th> </th>
+
+        </tr>
+
+
+        <%bloodsugar.insulin.forEach(function (i){%>
+
+        <tr>
+            <td><%=i.insulinName%></td>
+            <td><%=i.units %> units</td>
+            <td><%=i.time%></td>
+            <td><%=i.comments%></td>
+            <th></th>
+
+
+        </tr>
+        <%})%>
+
+        <tr>
+            <form action= "/bloodsugar/<%= bloodsugar._id%>/insulin" method = 'POST'>
+
+
+            <th><input name = 'insulinName'> </th>
+            <th><input type = 'number' name= 'units'></th>    
+            <th><input type = 'time' name= 'time'></th>    
+            <th><input name = 'comments'> </th>
+            <th><input type = 'submit'> </th>
+        </tr>
+        </form>
+        
+        
+    </table>
+
+<%- include('../partials/footer') %>
