@@ -16,8 +16,8 @@ h1, h2 {
 /* TABLES */
 
 #add-new {
-  border: none;
-  padding-top: 60%;
+  border-bottom: lightgrey;
+  padding-top: 40%;
   padding-bottom: 60%;
 }
 
@@ -98,4 +98,10 @@ table caption {
   margin: 5px;
   caption-side: top;
 
+}
+
+/* chart */
+div {
+
+  margin: 30px auto 30px auto
 }

@@ -1,6 +1,9 @@
 <%- include('../partials/header') %>
 
+
 <h1>Blood Sugar Readings</h1>
+
+
 
     <table class = 'index-table'>
         
@@ -17,26 +20,22 @@
        <tbody>
 
 
+ <!-- sorted blood sugar array by date -->
+<%const sortedBloodSugar = bloodsugar.sort (function(a,b){%>
+    <%return new Date (a.day) - new Date (b.day)%>
+<%})%>
 
 
-           <!-- sorted blood sugar array by date -->
-
-        <%const sortedBloodSugar = bloodsugar.sort (function(a,b){%>
-            <%return new Date (a.date) - new Date (b.date)%>
-        <%})%>
-
-
-
-        
+<!-- displaying data on table -->
         <%sortedBloodSugar.forEach(function (s){ %>
     
-            <%const simpleDate = [(s.date.getMonth() +1), (s.date.getDate())]%>
+            <%const simpleDate = [(s.day.getMonth() +1), (s.day.getDate())]%>
 
             <tr> 
                 <td class = 'date-heading'> <%= simpleDate.join('/')%></td>
 
                 <td>
-                <%s.reading.map(function(p){%>
+                <%s.reading.forEach(function(p){%>
                     <%if (p.mealTiming === 'Preprandial'){%>
                     <%=p.sugarReading%>&nbsp;-
                     <%}%>
@@ -53,22 +52,23 @@
                 <td><a href = '/bloodsugar/<%=s._id%>' class = "btn btn-outline-secondary btn-sm">More</a></td>
                 <td>
                     <form action = '/bloodsugar/<%=s.id%>?_method=DELETE' method = 'POST'>
-                        <button class="btn btn-outline-danger btn-sm " data-toggle="tooltip" title="Hooray!"type="submit"><i class="fa fa-trash"style = "font-size:18px"></i></button>
+                        <button class="btn btn-outline-danger btn-sm " data-toggle="tooltip" title="Delete"type="submit"><i class="fa fa-trash"style = "font-size:18px"></i></button>
                     </form>
                 </td>
 
             </tr>
 
     </tbody>
-    <%})%>
+    <%});%>
 
  
+    <td class = 'date-heading' >   &nbsp </td>
     <td id = "add-new">  <a href = '/bloodsugar/new' class = "btn btn-secondary">Add New Reading</a> </td>
 
 </table>
 <!-- finding dates for graph -->
 <%const chartDate = bloodsugar.map(function (d){%>
-    <%return d.date.toLocaleDateString()%>
+    <%return d.day.toLocaleDateString()%>
 <%})%>
 
 <!-- finding all sugar readings -->
@@ -89,7 +89,9 @@
         
 <%})%>
 
-<div class="chart-container" style="position: relative; height:40vh; width:60vw">
+
+
+<div class="chart-container" style="position: relative; height:30vh; width:50vw;">
     <canvas id="myChart"></canvas>
 </div>
 
@@ -108,12 +110,12 @@ const labels = <%- JSON.stringify(chartDate)%>;
     labels: labels,
     datasets: [{
       label: 'My First dataset',
-      fill:false,
-      borderColor: 'rgb(255, 99, 132)',
-      color: 'black',
+    //   fill:'black',
+      borderColor: 'black',
+    //   color: 'black',
 
       showLine: false, 
-      data: [<%- [sugarAverage] %>],
+      data: [<%= [sugarAverage] %>],
     }]
   };
 
@@ -123,12 +125,33 @@ let lineChart = new Chart(chart, {
     type:'line', 
     data, 
     options:{
+        scales: {
+            xAxes: [{
+                // type: 'time',
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Date'
+                }
+
+            }],
+
+
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Average Blood Sugar Reading'
+                }
+
+            }],
+        }
+     
+
         
-      showLine:false
     }
 })
 
-console.log(chart)
   </script>
 
 

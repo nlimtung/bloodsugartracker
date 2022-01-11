@@ -1,6 +1,6 @@
 const mongoose = require ('mongoose');
-
 const {Schema} = mongoose;
+
 
 const readingSchema = new Schema (
     {
@@ -37,9 +37,9 @@ const insulinSchema = new Schema(
 
 const bloodSugarSchema = new Schema(
     {
-    date:  {
-        type: Date, 
-        required: true, 
+        day:  {
+            type: Date, 
+            required: true, 
         }, 
         insulin: [insulinSchema], 
         reading:[readingSchema]
@@ -48,5 +48,6 @@ const bloodSugarSchema = new Schema(
         timestamps: true
     }
 )
+
 
 module.exports = mongoose.model ('Bloodsugar', bloodSugarSchema);

@@ -2,20 +2,15 @@ var express = require('express');
 var router = express.Router();
 const bloodSugarCtrl = require ('../controller/bloodsugar')
 
-router.get('/', bloodSugarCtrl.index);
-router.get('/new', bloodSugarCtrl.new);
+function isLoggedIn(req, res, next) {
+    if ( req.isAuthenticated() ) return next();
+    res.redirect('/auth/google');
+  }
+
+
+router.get('/',isLoggedIn, bloodSugarCtrl.index);
+router.get('/new',isLoggedIn,  bloodSugarCtrl.new);
 router.post('/', bloodSugarCtrl.create);
-
-
-// router.get('/', function(req, res) {
-//     data = [];
-//     console.log('doughnut data',data);
-//     res.render('dashboard/doughnut', {
-//       title:'My First Doughnut Chart', 
-//       datai: JSON.stringify(data)
-//     });
-//   });
-
 router.get ('/:id', bloodSugarCtrl.show);
 router.delete('/:id', bloodSugarCtrl.delete)
 

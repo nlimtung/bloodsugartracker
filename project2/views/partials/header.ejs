@@ -23,11 +23,21 @@
 </head>
 <body>
   <nav>
-    <a class = 'title-heading'>hello</a>
+
+
+
+
+
 
     <a href="/bloodsugar"  %>>See all readings</a>
 
     <a href="/bloodsugar/new"  %>>Add new readings</a>
+
+    <% if (user) { %>
+      <a href="/logout"><i class="material-icons left"></i>Log Out</a>
+    <% } else { %>
+      <a href="/auth/google"><i class="material-icons left">vpn_key</i>Login with Google</a>
+    <% } %>
 
   </nav>
   <main>

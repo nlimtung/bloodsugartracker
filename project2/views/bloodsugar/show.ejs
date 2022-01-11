@@ -1,5 +1,5 @@
 <%- include('../partials/header') %>
-<h1><%=bloodsugar.date.toDateString()  %></h1>
+<h1><%=bloodsugar.day.toDateString()  %></h1>
 
 <h2>Add sugar readings:</h2>
 <table class = 'show-table'>
@@ -10,6 +10,8 @@
        <th>Time</th> 
        <th>Meal Timing</th>
        <th>Sugar reading</th>
+       <th>Comments</th>
+
        <th> </th>
 
 
@@ -20,6 +22,8 @@
             <td><%=r.time%></td>
             <td><%=r.mealTiming %></td>
             <td><%=r.sugarReading%></td>
+            <td><%=r.comments%></td>
+
             <th> </th>
        
         </tr>
@@ -33,7 +37,9 @@
                 <option value="Preprandial">Preprandial</option>
                 <option value="Postprandial">Postprandial</option>
             </select></th>    
-            <th><input type = 'Number' name= 'sugarReading'></th>    
+            <th><input type = 'Number' step= '0.1' name= 'sugarReading'></th>    
+            <th><input name= 'comments'></th>    
+
             <th><input type = 'submit'> </th>
 
         </tr>
