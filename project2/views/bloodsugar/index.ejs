@@ -3,15 +3,13 @@
 
 <h1>Blood Sugar Readings</h1>
 
-
-
-    <table class = 'index-table'>
+<table class = 'index-table'>
         
         <thead>
             <tr>
                 <th class = 'date-heading'>Date</th>
-                <th>Pre-prandial reading</th>
-                <th>Post-prandial reading</th>
+                <th>Blood sugar before meals (in mmol/L)</th>
+                <th>Blood sugar after meals (in mmol/L)<th>
                 <th>Details</th>
                 
             </tr>
@@ -35,19 +33,25 @@
                 <td class = 'date-heading'> <%= simpleDate.join('/')%></td>
 
                 <td>
-                <%s.reading.forEach(function(p){%>
+                <%let prePranReading = s.reading.map(function(p){%>
                     <%if (p.mealTiming === 'Preprandial'){%>
-                    <%=p.sugarReading%>&nbsp;-
+                    <%return (' ') + p.sugarReading %>;
                     <%}%>
+
                 <%})%>
-                &nbsp; </td>
+                <%=prePranReading.filter(Number)%>
+                %>&nbsp
+                 </td>
                 
                 <td>
-                    <%s.reading.map(function(p){%>
+                    <%let postPrandReading = s.reading.map(function(p){%>
                         <%if (p.mealTiming === 'Postprandial'){%>
-                        <%=p.sugarReading%>&nbsp;
+                        <%return (' ') +p.sugarReading%>&nbsp;
                         <%}%>
-                    <%})%>&nbsp;  </td>
+
+                    <%})%>&nbsp;  
+                    <%=postPrandReading.filter(Number)%>
+                </td>
                 
                 <td><a href = '/bloodsugar/<%=s._id%>' class = "btn btn-outline-secondary btn-sm">More</a></td>
                 <td>
@@ -66,6 +70,7 @@
     <td id = "add-new">  <a href = '/bloodsugar/new' class = "btn btn-secondary">Add New Reading</a> </td>
 
 </table>
+
 <!-- finding dates for graph -->
 <%const chartDate = bloodsugar.map(function (d){%>
     <%return d.day.toLocaleDateString()%>
@@ -89,10 +94,77 @@
         
 <%})%>
 
+<!-- finding  preprandial sugar readings -->
+
+<%var fastedChartValues = bloodsugar.map(function (fasted){%>
+    <%  return fasted.reading.map(function (pre){%>
+        <%newArray = []%>
+
+        <%if (pre.mealTiming === 'Preprandial'){%>
+            <%return (pre.sugarReading)%>
+      <%}%>
+   <%})%>
+<%})%>
+
+<!-- removing undefined/null -->
+<%let filteredFasted = fastedChartValues.map(function(f){%>
+    <%return f.filter(Number)%>
+<%})%>
+
+<!-- average preprandial -->
+<%var preAverage = filteredFasted.map(function(pre){%>
+    <%  var total = 0;%>
+    <%for(var i = 0; i < pre.length; i++) {%>
+        <%  total += pre[i];%>
+        <%}%>
+        <% var avg = total / pre.length;%>
+        <% return avg%>
+        
+<%})%>
+
+<!-- finding post sugar readings -->
+<%var fedChartValues = bloodsugar.map(function (fed){%>
+    <%  return fed.reading.map(function (post){%>
+        <%newArray = []%>
+
+        <%if (post.mealTiming === 'Postprandial'){%>
+            <%return (post.sugarReading)%>
+      <%}%>
+   <%})%>
+<%})%>
+
+<!-- removing undefined/null -->
+<%let filteredFed = fedChartValues.map(function(f){%>
+    <%return f.filter(Number)%>
+<%})%>
+
+<!-- average postprandial -->
+<%var fedAverage = filteredFed.map(function(post){%>
+    <%  var total = 0;%>
+    <%for(var i = 0; i < post.length; i++) {%>
+        <%  total += post[i];%>
+        <%}%>
+        <% var avg = total / post.length;%>
+        <% return avg%>  
+<%})%>
+    </br>
 
 
+<h3>Average blood sugar vs day</h3>
 <div class="chart-container" style="position: relative; height:30vh; width:50vw;">
-    <canvas id="myChart"></canvas>
+    <canvas id="myChart1"></canvas>
+</br>    </br>
+
+<h3>Average blood sugar (before meals) vs day</h3>
+
+    <canvas id="myChart2"></canvas>
+</br>    </br>
+
+<h3>Average blood sugar (after meals) vs day</h3>
+
+
+    <canvas id="myChart3"></canvas>
+
 </div>
 
   
@@ -102,17 +174,19 @@
 <script>
 
 
-const chart = document.getElementById('myChart')
+const chart = document.getElementById('myChart1')
 
 const labels = <%- JSON.stringify(chartDate)%>;
 
-  const data = {
+  var data = {
     labels: labels,
     datasets: [{
       label: 'My First dataset',
-    //   fill:'black',
       borderColor: 'black',
-    //   color: 'black',
+      color: 'black',
+      pointRadius: 5,
+
+      
 
       showLine: false, 
       data: [<%= [sugarAverage] %>],
@@ -152,8 +226,101 @@ let lineChart = new Chart(chart, {
     }
 })
 
-  </script>
 
+// chart2
+const chart2 = document.getElementById('myChart2')
+
+const labels2 = <%- JSON.stringify(chartDate)%>;
+
+var data = {
+    labels: labels,
+    datasets: [{
+      label: 'My First ',
+    //   fill:'black',
+      borderColor: 'black',
+      pointRadius: 5,
+
+      showLine: false, 
+      data: [<%=preAverage%>],
+    }]
+  };
+
+let lineChart2 = new Chart(chart2, {
+    type:'line', 
+    data, 
+    options:{
+        scales: {
+            xAxes: [{
+                // type: 'time',
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Date'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Average Blood Sugar Reading (before food)'
+                }
+
+            }],
+        }
+        
+    }
+})
+
+
+
+// chart3
+const chart3 = document.getElementById('myChart3')
+
+const labels3 = <%- JSON.stringify(chartDate)%>;
+
+var data = {
+    labels: labels3,
+    datasets: [{
+      label: 'My First dataset',
+    //   fill:'black',
+      borderColor: 'black',
+      pointRadius: 5,
+
+      showLine: false, 
+    data: [<%=fedAverage%>],
+    }]
+  };
+
+
+let lineChart3 = new Chart(chart3, {
+    type:'line', 
+    data, 
+    options:{
+        scales: {
+            xAxes: [{
+                // type: 'time',
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Date'
+                }
+
+            }],
+
+
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Average Blood Sugar Reading(after meals)'
+                }
+
+            }],
+        }
+        
+    }
+})
+  </script>
 
 
 <%- include('../partials/footer') %>

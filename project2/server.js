@@ -19,9 +19,9 @@ require('./config/passport');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var bloodSugarRouter = require('./routes/bloodsugar');
-var insulinRouter = require('./routes/insulin');
-var readingRouter = require('./routes/reading');
+var bloodSugarRouter = require('./routes/bloodSugarReadings');
+var insulinRouter = require('./routes/insulinReadings');
+var readingRouter = require('./routes/readings');
 
 
 

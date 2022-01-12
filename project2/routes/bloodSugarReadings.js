@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const bloodSugarCtrl = require ('../controller/bloodsugar')
+const bloodSugarCtrl = require ('../controller/bloodSugarReadings')
 
 function isLoggedIn(req, res, next) {
     if ( req.isAuthenticated() ) return next();
@@ -10,7 +10,7 @@ function isLoggedIn(req, res, next) {
 
 router.get('/',isLoggedIn, bloodSugarCtrl.index);
 router.get('/new',isLoggedIn,  bloodSugarCtrl.new);
-router.post('/', bloodSugarCtrl.create);
+router.post('/', isLoggedIn, bloodSugarCtrl.create);
 router.get ('/:id', bloodSugarCtrl.show);
 router.delete('/:id', bloodSugarCtrl.delete)
 

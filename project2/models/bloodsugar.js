@@ -40,14 +40,19 @@ const bloodSugarSchema = new Schema(
         day:  {
             type: Date, 
             required: true, 
+            unique:true
         }, 
         insulin: [insulinSchema], 
-        reading:[readingSchema]
+        reading:[readingSchema],
+        user:  { type: Schema.Types.ObjectId, ref: 'User'}
+
     },
     {
         timestamps: true
     }
 )
+
+
 
 
 module.exports = mongoose.model ('Bloodsugar', bloodSugarSchema);

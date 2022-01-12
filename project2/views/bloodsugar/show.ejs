@@ -1,7 +1,8 @@
 <%- include('../partials/header') %>
+
+
 <h1><%=bloodsugar.day.toDateString()  %></h1>
 
-<h2>Add sugar readings:</h2>
 <table class = 'show-table'>
     
     <caption>Add bloodsugar readings </caption>
@@ -40,13 +41,12 @@
             <th><input type = 'Number' step= '0.1' name= 'sugarReading'></th>    
             <th><input name= 'comments'></th>    
 
-            <th><input type = 'submit'> </th>
+            <th><input type = 'submit' value = 'Add'class = "btn btn-outline-secondary btn-sm"> </th>
 
         </tr>
         </form>
 </table>
 
-<h2>Add insulin usage:</h2>
 
     <!-- form to add insulin levels -->
     <table class= 'show-table'>
@@ -83,7 +83,7 @@
             <th><input type = 'number' name= 'units'></th>    
             <th><input type = 'time' name= 'time'></th>    
             <th><input name = 'comments'> </th>
-            <th><input type = 'submit'> </th>
+            <th><input type = 'submit'class = "btn btn-outline-secondary btn-sm"  value = 'Add'> </th>
         </tr>
         </form>
         
