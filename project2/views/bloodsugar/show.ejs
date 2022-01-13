@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 
 
-<h1><%=bloodsugar.day.toDateString()  %></h1>
+<h1 class="display-4"><%=bloodsugar.day.toDateString()  %></h1>
 
 <table class = 'show-table'>
     
@@ -35,8 +35,8 @@
 
             <th><input type = 'Time' name = 'time'> </th>
             <th><select name="mealTiming">
-                <option value="Preprandial">Preprandial</option>
-                <option value="Postprandial">Postprandial</option>
+                <option value="Preprandial">Before food</option>
+                <option value="Postprandial">After food</option>
             </select></th>    
             <th><input type = 'Number' step= '0.1' name= 'sugarReading'></th>    
             <th><input name= 'comments'></th>    

@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 
 
-<h1>Blood Sugar Readings</h1>
+<h1 class = 'display-5'>Blood Sugar Readings</h1>
 
 <table class = 'index-table'>
         
@@ -9,9 +9,9 @@
             <tr>
                 <th class = 'date-heading'>Date</th>
                 <th>Blood sugar before meals (in mmol/L)</th>
-                <th>Blood sugar after meals (in mmol/L)<th>
+                <th>Blood sugar after meals (in mmol/L)</th>
                 <th>Details</th>
-                
+
             </tr>
             
        </thead>
@@ -185,7 +185,7 @@ const labels = <%- JSON.stringify(chartDate)%>;
       borderColor: 'black',
       color: 'black',
       pointRadius: 5,
-
+      pointBackgroundColor:'#CAD8D2',
       
 
       showLine: false, 
@@ -219,6 +219,9 @@ let lineChart = new Chart(chart, {
                 }
 
             }],
+        },
+        legend: {
+            display: false
         }
      
 
@@ -239,6 +242,7 @@ var data = {
     //   fill:'black',
       borderColor: 'black',
       pointRadius: 5,
+      pointBackgroundColor:'#CAD8D2',
 
       showLine: false, 
       data: [<%=preAverage%>],
@@ -266,6 +270,9 @@ let lineChart2 = new Chart(chart2, {
                 }
 
             }],
+        },
+        legend: {
+            display: false
         }
         
     }
@@ -285,7 +292,7 @@ var data = {
     //   fill:'black',
       borderColor: 'black',
       pointRadius: 5,
-
+      pointBackgroundColor:'#CAD8D2',
       showLine: false, 
     data: [<%=fedAverage%>],
     }]
@@ -316,6 +323,9 @@ let lineChart3 = new Chart(chart3, {
                 }
 
             }],
+        },
+        legend: {
+            display: false
         }
         
     }
