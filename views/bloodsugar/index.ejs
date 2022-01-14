@@ -1,4 +1,46 @@
-<%- include('../partials/header') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+</head>
+<body>
+  <nav>
+
+
+
+
+
+
+
+    <a href="/bloodsugar/new"  %>>Add new readings</a>
+
+    <% if (user) { %>
+      <a href="/logout"><i class="material-icons left"></i>Log Out</a>
+    <% } else { %>
+      <a href="/auth/google"><i class="material-icons left"></i>Login with Google</a>
+    <% } %>
+
+  </nav>
+  <main>
+
 
 
 <h1 class = 'display-5'>Blood Sugar Readings</h1>
@@ -34,7 +76,7 @@
 
                 <td>
                 <%let prePranReading = s.reading.map(function(p){%>
-                    <%if (p.mealTiming === 'Preprandial'){%>
+                    <%if (p.mealTiming === 'Before food'){%>
                     <%return (' ') + p.sugarReading %>;
                     <%}%>
 
@@ -45,7 +87,7 @@
                 
                 <td>
                     <%let postPrandReading = s.reading.map(function(p){%>
-                        <%if (p.mealTiming === 'Postprandial'){%>
+                        <%if (p.mealTiming === 'After food'){%>
                         <%return (' ') +p.sugarReading%>&nbsp;
                         <%}%>
 
@@ -100,7 +142,7 @@
     <%  return fasted.reading.map(function (pre){%>
         <%newArray = []%>
 
-        <%if (pre.mealTiming === 'Preprandial'){%>
+        <%if (pre.mealTiming === 'Before food'){%>
             <%return (pre.sugarReading)%>
       <%}%>
    <%})%>
@@ -127,7 +169,7 @@
     <%  return fed.reading.map(function (post){%>
         <%newArray = []%>
 
-        <%if (post.mealTiming === 'Postprandial'){%>
+        <%if (post.mealTiming === 'After food'){%>
             <%return (post.sugarReading)%>
       <%}%>
    <%})%>
@@ -213,6 +255,10 @@ let lineChart = new Chart(chart, {
 
             yAxes: [{
                 display: true,
+                ticks: {
+                    min:2.0,
+                    max: 16.0,
+                },
                 scaleLabel: {
                     display: true,
                     labelString: 'Average Blood Sugar Reading'
@@ -264,6 +310,10 @@ let lineChart2 = new Chart(chart2, {
             }],
             yAxes: [{
                 display: true,
+                ticks: {
+                    min:2.0,
+                    max: 16.0,
+                },
                 scaleLabel: {
                     display: true,
                     labelString: 'Average Blood Sugar Reading (before food)'
@@ -317,6 +367,10 @@ let lineChart3 = new Chart(chart3, {
 
             yAxes: [{
                 display: true,
+                ticks: {
+                    min:2.0,
+                    max: 16.0,
+                },
                 scaleLabel: {
                     display: true,
                     labelString: 'Average Blood Sugar Reading(after meals)'

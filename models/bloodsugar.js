@@ -10,12 +10,11 @@ const readingSchema = new Schema (
         }, 
         mealTiming: {
             type: String, 
-            enum: ['Preprandial', 'Postprandial'], 
+            enum: ['Before food', 'After food'], 
         }, 
         sugarReading: {
             type: Number, 
-            min: 3.0, 
-            max: 15.0, 
+        
             required: true
         },
         comments: String,
