@@ -5,4 +5,5 @@ const insulinCtrl = require ('../controller/insulinReadings')
 router.post('/bloodsugar/:id/insulin', insulinCtrl.create);
 
 
+
 module.exports = router;
