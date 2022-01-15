@@ -34,6 +34,7 @@ Technologies used:
 Next Steps: 
 
 * Add additional CRUD functionality, including delete and update functions of insulin readings and blood sugar readings
+* Add doctor/patient functionality and authorization
 
 
 
