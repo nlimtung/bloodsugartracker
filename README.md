@@ -2,12 +2,12 @@
 
 This project is used to input blood sugar levels for those with diabetes. The application allows the user to input blood sugar by date, and charts the data for easy comparison. The application uses mongoose modeling to compile its data, including embedded data for blood sugar readings and insulin. 
 
-Wireframing of the project can be below:
+<!-- Wireframing of the project can be below:
 
 ![screenshot](public/images/blood-sugar-notes.jpeg)
 
 
-
+ -->
 ---
 
 
